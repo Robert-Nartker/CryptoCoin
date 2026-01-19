@@ -18,200 +18,175 @@ SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6tEwAfY33lPFR
 
 # === Page Config ===
 st.set_page_config(
-    page_title="CryptoCoin Dashboard",
-    page_icon="💎",
+    page_title="CryptoCoin",
+    page_icon="◆",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
-# === Custom Styling - Modern Professional Theme ===
+# === AI Startup Theme (Glassmorphism + Modern Gradients) ===
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
     
     :root {
-        --primary: #6366f1;
-        --primary-light: #818cf8;
-        --primary-dark: #4f46e5;
-        --accent: #22d3ee;
-        --success: #10b981;
-        --warning: #f59e0b;
-        --danger: #ef4444;
-        --bg-dark: #0f172a;
-        --bg-card: #1e293b;
-        --bg-elevated: #334155;
-        --text-primary: #f1f5f9;
+        --bg-dark: #0A0A0F; /* Deep space black */
+        --bg-card: rgba(255, 255, 255, 0.03);
+        --bg-card-hover: rgba(255, 255, 255, 0.06);
+        --border-color: rgba(255, 255, 255, 0.08);
+        --accent-primary: #6366f1; /* Indigo */
+        --accent-secondary: #ec4899; /* Pink */
+        --accent-tertiary: #10b981; /* Emerald */
+        --text-primary: #f8fafc;
         --text-secondary: #94a3b8;
-        --text-muted: #64748b;
-        --border: #334155;
     }
-    
+
+    /* Global Reset & Base */
     .stApp {
-        background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1f35 50%, var(--bg-dark) 100%);
-    }
-    
-    .main-header {
+        background-color: var(--bg-dark);
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 20%),
+            radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 20%);
         font-family: 'Inter', sans-serif;
-        font-size: 3.5rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, var(--primary-light) 100%);
+    }
+
+    /* Remove Streamlit default padding */
+    .block-container {
+        padding-top: 3rem;
+        padding-bottom: 5rem;
+        max-width: 1200px;
+    }
+
+    /* Hero Section Typography */
+    .hero-title {
+        font-family: 'Inter', sans-serif;
+        font-weight: 800;
+        font-size: 4rem;
+        text-align: center;
+        background: linear-gradient(135deg, #fff 30%, #a5b4fc 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        text-align: center;
-        letter-spacing: -0.02em;
-        margin-bottom: 0;
+        letter-spacing: -0.03em;
+        margin-bottom: 0.5rem;
+        line-height: 1.1;
     }
     
-    .sub-header {
+    .hero-subtitle {
         font-family: 'Inter', sans-serif;
-        font-size: 1rem;
         color: var(--text-secondary);
         text-align: center;
-        margin-top: 8px;
-        margin-bottom: 2rem;
-        letter-spacing: 0.05em;
+        font-size: 1.25rem;
         font-weight: 400;
+        max-width: 600px;
+        margin: 0 auto 3rem auto;
+        line-height: 1.6;
     }
-    
-    .metric-card {
-        background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-elevated) 100%);
-        border: 1px solid var(--border);
+
+    /* Custom Cards (Glassmorphism) */
+    .css-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         border-radius: 16px;
         padding: 1.5rem;
-        text-align: center;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition: all 0.3s ease;
     }
     
-    .metric-card:hover {
+    .css-card:hover {
+        background: var(--bg-card-hover);
+        border-color: rgba(99, 102, 241, 0.3);
         transform: translateY(-2px);
-        box-shadow: 0 8px 32px rgba(99, 102, 241, 0.15);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
     }
-    
-    .stDataFrame {
-        background: var(--bg-card) !important;
-        border-radius: 12px !important;
-        border: 1px solid var(--border) !important;
-    }
-    
-    div[data-testid="stMetricValue"] {
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 1.75rem;
-        font-weight: 600;
-        color: var(--text-primary);
-    }
-    
-    div[data-testid="stMetricLabel"] {
-        font-family: 'Inter', sans-serif;
-        font-size: 0.875rem;
+
+    /* Metrics Styling */
+    .metric-label {
         color: var(--text-secondary);
-        font-weight: 500;
+        font-size: 0.85rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-    }
-    
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Inter', sans-serif;
-        color: var(--text-primary);
         font-weight: 600;
+        margin-bottom: 0.5rem;
     }
     
-    p, span, div {
-        font-family: 'Inter', sans-serif;
+    .metric-value {
+        color: var(--text-primary);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
     }
     
+    /* Styled DataFrame */
+    .stDataFrame {
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
+    }
+    
+    div[data-testid="stDataFrame"] {
+        background: rgba(0,0,0,0.2);
+    }
+
+    /* Buttons */
     .stButton>button {
-        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        background: linear-gradient(135deg, var(--accent-primary) 0%, #4f46e5 100%);
         color: white;
         border: none;
-        border-radius: 10px;
-        font-family: 'Inter', sans-serif;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
         font-weight: 600;
-        padding: 0.625rem 1.25rem;
-        letter-spacing: 0.02em;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        transition: all 0.2s;
+        width: 100%;
     }
     
     .stButton>button:hover {
-        background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+        opacity: 0.9;
+        transform: scale(1.02);
+    }
+
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 2rem;
+        background-color: transparent;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        height: 3rem;
+        white-space: pre-wrap;
+        background-color: transparent;
+        border: none;
+        color: var(--text-secondary);
+        font-family: 'Inter', sans-serif;
     }
     
-    .block-container {
-        padding-top: 2rem;
-        max-width: 1400px;
+    .stTabs [aria-selected="true"] {
+        color: var(--accent-primary) !important;
+        border-bottom: 2px solid var(--accent-primary) !important;
     }
     
-    /* Sidebar styling */
-    section[data-testid="stSidebar"] {
-        background: var(--bg-card);
-        border-right: 1px solid var(--border);
-    }
-    
-    section[data-testid="stSidebar"] .block-container {
-        padding-top: 2rem;
-    }
-    
-    /* Alert styling */
-    .stAlert {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-    }
-    
-    /* Expander styling */
-    .streamlit-expanderHeader {
-        background: var(--bg-card);
-        border-radius: 10px;
-    }
-    
-    /* Hide footer */
+    /* Hide Streamlit Cruft */
+    header {visibility: hidden;}
     footer {visibility: hidden;}
+    .viewerBadge_container__1QSob {display: none;}
     
-    /* Custom badge */
-    .status-badge {
+    /* Status Badge */
+    .status-dot {
+        height: 8px;
+        width: 8px;
+        background-color: var(--accent-tertiary);
+        border-radius: 50%;
         display: inline-block;
-        background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        color: white;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-    }
-    
-    /* Crypto icon styling */
-    .crypto-icon {
-        font-size: 1.5rem;
-        margin-right: 0.5rem;
-    }
-    
-    /* Table header */
-    thead tr th {
-        background: var(--bg-elevated) !important;
-        color: var(--text-primary) !important;
-        font-weight: 600 !important;
-    }
-    
-    /* Links */
-    a {
-        color: var(--primary-light);
-        text-decoration: none;
-    }
-    
-    a:hover {
-        color: var(--accent);
+        margin-right: 6px;
+        box-shadow: 0 0 10px var(--accent-tertiary);
     }
 </style>
 """, unsafe_allow_html=True)
 
-
-@st.cache_data(ttl=60)  # Cache for 60 seconds
+@st.cache_data(ttl=60)
 def load_data():
-    """Load transaction data from Google Sheets"""
     try:
         response = requests.get(SHEET_CSV_URL, timeout=10)
         response.raise_for_status()
@@ -220,308 +195,168 @@ def load_data():
     except Exception as e:
         return None, str(e)
 
+def format_number(num):
+    if num >= 1_000_000:
+        return f"{num/1_000_000:.2f}M"
+    if num >= 1_000:
+        return f"{num/1_000:.2f}K"
+    return f"{num:,.2f}"
 
-def format_crypto_amount(amount):
-    """Format amount with crypto symbol"""
-    if amount >= 1_000_000:
-        return f"◆ {amount/1_000_000:,.2f}M"
-    elif amount >= 1_000:
-        return f"◆ {amount/1_000:,.2f}K"
-    return f"◆ {amount:,.2f}"
-
-
-def format_hash(hash_str, length=8):
-    """Format transaction hash for display"""
-    if pd.isna(hash_str) or not isinstance(hash_str, str):
-        return "—"
-    if len(hash_str) > length * 2:
-        return f"{hash_str[:length]}...{hash_str[-length:]}"
-    return hash_str
-
+def render_metric_card(label, value, prefix=""):
+    st.markdown(f"""
+    <div class="css-card">
+        <div class="metric-label">{label}</div>
+        <div class="metric-value">{prefix}{value}</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 def main():
-    # === Header ===
-    st.markdown('<h1 class="main-header">CryptoCoin</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="sub-header">Campus Cryptocurrency • Transaction Dashboard</p>', unsafe_allow_html=True)
-    
-    # === Sidebar ===
-    with st.sidebar:
-        st.markdown("### 💎 CryptoCoin")
-        st.markdown('<span class="status-badge">LIVE</span>', unsafe_allow_html=True)
-        st.markdown("---")
-        
-        st.markdown("#### About")
-        st.markdown("""
-        CryptoCoin is a campus cryptocurrency prototype designed 
-        to facilitate secure peer-to-peer transactions within 
-        university ecosystems.
-        """)
-        
-        st.markdown("---")
-        
-        st.markdown("#### Data Source")
-        st.markdown("📊 [View Transaction Ledger](https://docs.google.com/spreadsheets/d/e/2PACX-1vR6tEwAfY33lPFRJESrjKTN0IQyneZj6RtvVRVUSAB_KydfhP3aVZB62ksuBGHZLlI3Hv97m_DNNz8j/pubhtml)")
-        
-        st.markdown("---")
-        
-        if st.button("🔄 Refresh Data", use_container_width=True):
-            st.cache_data.clear()
-            st.rerun()
-        
-        st.markdown("---")
-        
-        # Stats card
-        st.markdown("#### System Status")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.markdown("**Network**")
-            st.markdown("🟢 Online")
-        with col2:
-            st.markdown("**Sync**")
-            st.markdown("✓ Live")
-        
-        st.markdown("---")
-        st.caption("Component 1: Streamlit Dashboard")
-        st.caption(f"Last refresh: {datetime.now().strftime('%H:%M:%S')}")
-    
+    # === Navbar / Top Bar ===
+    col_logo, col_spacer, col_status = st.columns([1, 4, 1])
+    with col_logo:
+        st.markdown("<div style='font-weight:700; font-size:1.2rem; color:#fff;'>◆ CryptoCoin</div>", unsafe_allow_html=True)
+    with col_status:
+        st.markdown(f"<div style='text-align:right; color:#94a3b8; font-size:0.9rem;'><span class='status-dot'></span>Live Sync</div>", unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # === Hero Section ===
+    st.markdown('<div class="hero-title">The Future of<br>Campus Currency</div>', unsafe_allow_html=True)
+    st.markdown('<div class="hero-subtitle">Real-time transparency. Secure transactions. Student-first economy.<br>View the live ledger below.</div>', unsafe_allow_html=True)
+
     # === Load Data ===
     df, error = load_data()
-    
+
     if error:
-        st.error(f"❌ Failed to load data: {error}")
-        st.info("Please check your internet connection or verify the spreadsheet is published.")
+        st.error(f"Unable to connect to ledger: {error}")
         return
-    
+
     if df is None or df.empty:
-        st.warning("⚠️ No transaction data found in the spreadsheet.")
-        st.info("Add transactions to the Google Sheet to see them here.")
+        st.warning("Ledger is currently empty.")
         return
-    
-    # === Data Processing ===
+
+    # Clean columns
     df.columns = df.columns.str.strip()
+
+    # Calculate Metrics
+    total_tx = len(df)
+    amount_col = next((c for c in df.columns if 'amount' in c.lower() or 'value' in c.lower()), None)
     
-    # Success notification
-    st.success(f"✅ Connected to ledger • {len(df)} transactions loaded")
+    total_vol = 0
+    avg_tx = 0
+    max_tx = 0
     
-    # === Key Metrics ===
-    st.markdown("---")
-    st.markdown("### 📊 Overview")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    total_transactions = len(df)
-    
-    # Find amount column
-    amount_col = None
-    for col in df.columns:
-        if 'amount' in col.lower() or 'value' in col.lower() or 'total' in col.lower():
-            amount_col = col
-            break
-    
-    with col1:
-        st.metric(
-            label="Total Transactions",
-            value=f"{total_transactions:,}",
-            delta=None
-        )
-    
-    if amount_col and pd.to_numeric(df[amount_col], errors='coerce').notna().any():
-        amounts = pd.to_numeric(df[amount_col], errors='coerce')
-        total_volume = amounts.sum()
-        avg_transaction = amounts.mean()
-        max_transaction = amounts.max()
+    if amount_col:
+        amounts = pd.to_numeric(df[amount_col], errors='coerce').fillna(0)
+        total_vol = amounts.sum()
+        avg_tx = amounts.mean()
+        max_tx = amounts.max()
+
+    # === Metrics Grid ===
+    m1, m2, m3, m4 = st.columns(4)
+    with m1:
+        render_metric_card("Total Transactions", f"{total_tx:,}")
+    with m2:
+        render_metric_card("Total Volume", format_number(total_vol), "◆ ")
+    with m3:
+        render_metric_card("Average Value", format_number(avg_tx), "◆ ")
+    with m4:
+        render_metric_card("Largest Single Tx", format_number(max_tx), "◆ ")
+
+    st.markdown("<br><br>", unsafe_allow_html=True)
+
+    # === Main Content Area ===
+    c1, c2 = st.columns([2, 1])
+
+    with c1:
+        st.markdown("### 📋 Live Ledger", unsafe_allow_html=True)
+        st.markdown("<div style='margin-bottom: 1rem; color: var(--text-secondary);'>Real-time stream of all confirmed transactions.</div>", unsafe_allow_html=True)
         
-        with col2:
-            st.metric(
-                label="Total Volume",
-                value=format_crypto_amount(total_volume)
-            )
+        # Table Styling
+        display_df = df.copy()
         
-        with col3:
-            st.metric(
-                label="Avg Transaction",
-                value=format_crypto_amount(avg_transaction)
-            )
-        
-        with col4:
-            st.metric(
-                label="Largest Tx",
-                value=format_crypto_amount(max_transaction)
-            )
-    else:
-        with col2:
-            st.metric(label="Data Columns", value=len(df.columns))
-        with col3:
-            st.metric(label="Data Points", value=f"{df.size:,}")
-        with col4:
-            st.metric(label="Status", value="Active ✓")
-    
-    # === Transaction Table ===
-    st.markdown("---")
-    st.markdown("### 📋 Transaction Ledger")
-    
-    # Display options
-    col_options, col_search = st.columns([1, 2])
-    with col_options:
-        show_full = st.checkbox("Show full transaction hashes", value=False)
-    
-    # Format data for display
-    display_df = df.copy()
-    
-    # Format hash columns if not showing full
-    if not show_full:
+        # Truncate hashes for cleaner UI
         for col in display_df.columns:
-            if 'hash' in col.lower() or 'from' in col.lower() or 'to' in col.lower():
-                if display_df[col].dtype == 'object':
-                    display_df[col] = display_df[col].apply(lambda x: format_hash(x, 10))
-    
-    st.dataframe(
-        display_df,
-        use_container_width=True,
-        height=350
-    )
-    
-    # === Analytics ===
-    if amount_col and pd.to_numeric(df[amount_col], errors='coerce').notna().any():
-        st.markdown("---")
-        st.markdown("### 📈 Analytics")
+            if any(x in col.lower() for x in ['hash', 'from', 'to', 'addr']):
+                display_df[col] = display_df[col].astype(str).apply(lambda x: x[:6] + '...' + x[-4:] if len(x) > 10 else x)
         
-        amounts = pd.to_numeric(df[amount_col], errors='coerce')
+        st.dataframe(
+            display_df,
+            use_container_width=True,
+            height=400,
+            column_config={
+                amount_col: st.column_config.NumberColumn(
+                    "Amount",
+                    format="◆ %.2f"
+                )
+            } if amount_col else None
+        )
+
+    with c2:
+        st.markdown("### 📈 Network Activity", unsafe_allow_html=True)
         
-        # Create tabs for different views
-        tab1, tab2, tab3 = st.tabs(["📊 Distribution", "📈 Volume Trend", "🔍 Details"])
-        
-        with tab1:
-            col1, col2 = st.columns(2)
+        if amount_col:
+            # 1. Volume Trend (Area Chart)
+            # Create a synthetic index or use date if available
+            df_chart = df.copy()
+            df_chart = df_chart.reset_index()
             
-            with col1:
-                # Transaction amounts bar chart
-                fig_bar = px.bar(
-                    df,
-                    y=amount_col,
-                    title="Transaction Amounts",
-                    labels={amount_col: "Amount (CryptoCoin)", "index": "Transaction #"},
-                    color_discrete_sequence=['#6366f1']
-                )
-                fig_bar.update_layout(
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    font_color='#94a3b8',
-                    title_font_color='#f1f5f9',
-                    title_font_size=16,
-                    showlegend=False,
-                    xaxis=dict(showgrid=False),
-                    yaxis=dict(gridcolor='rgba(51, 65, 85, 0.5)')
-                )
-                st.plotly_chart(fig_bar, use_container_width=True)
+            # Minimalist Area Chart
+            fig = px.area(
+                df_chart, 
+                y=amount_col, 
+                title=None,
+                color_discrete_sequence=['#6366f1']
+            )
             
-            with col2:
-                # Distribution histogram
-                fig_hist = px.histogram(
-                    df,
-                    x=amount_col,
-                    nbins=max(5, len(df)//2),
-                    title="Value Distribution",
-                    labels={amount_col: "Amount (CryptoCoin)"},
-                    color_discrete_sequence=['#22d3ee']
-                )
-                fig_hist.update_layout(
-                    plot_bgcolor='rgba(0,0,0,0)',
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    font_color='#94a3b8',
-                    title_font_color='#f1f5f9',
-                    title_font_size=16,
-                    showlegend=False,
-                    xaxis=dict(showgrid=False),
-                    yaxis=dict(gridcolor='rgba(51, 65, 85, 0.5)')
-                )
-                st.plotly_chart(fig_hist, use_container_width=True)
-        
-        with tab2:
-            # Cumulative volume chart
-            cumulative = amounts.cumsum()
-            
-            fig_cumulative = go.Figure()
-            fig_cumulative.add_trace(go.Scatter(
-                y=cumulative,
-                mode='lines+markers',
-                name='Cumulative Volume',
-                line=dict(color='#6366f1', width=3),
-                marker=dict(size=10, color='#6366f1', line=dict(width=2, color='#22d3ee')),
-                fill='tozeroy',
-                fillcolor='rgba(99, 102, 241, 0.15)'
-            ))
-            fig_cumulative.update_layout(
-                title="Cumulative Transaction Volume",
+            fig.update_layout(
                 plot_bgcolor='rgba(0,0,0,0)',
                 paper_bgcolor='rgba(0,0,0,0)',
-                font_color='#94a3b8',
-                title_font_color='#f1f5f9',
-                title_font_size=16,
-                xaxis_title="Transaction #",
-                yaxis_title="Cumulative Volume",
-                xaxis=dict(showgrid=False),
-                yaxis=dict(gridcolor='rgba(51, 65, 85, 0.5)'),
-                hovermode='x unified'
+                margin=dict(l=0, r=0, t=0, b=0),
+                xaxis=dict(showgrid=False, showticklabels=False),
+                yaxis=dict(showgrid=True, gridcolor='rgba(255,255,255,0.05)', showticklabels=True),
+                height=200,
+                showlegend=False
             )
-            st.plotly_chart(fig_cumulative, use_container_width=True)
-        
-        with tab3:
-            # Summary statistics
-            st.markdown("#### Summary Statistics")
+            # Add gradient fill
+            fig.update_traces(fillcolor='rgba(99, 102, 241, 0.2)', line=dict(width=2))
             
-            stats_col1, stats_col2, stats_col3 = st.columns(3)
+            st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
             
-            with stats_col1:
-                st.markdown("**Volume Metrics**")
-                st.markdown(f"- Total: `{total_volume:,.2f}`")
-                st.markdown(f"- Average: `{avg_transaction:,.2f}`")
-                st.markdown(f"- Median: `{amounts.median():,.2f}`")
+            st.markdown("<br>", unsafe_allow_html=True)
             
-            with stats_col2:
-                st.markdown("**Range**")
-                st.markdown(f"- Minimum: `{amounts.min():,.2f}`")
-                st.markdown(f"- Maximum: `{amounts.max():,.2f}`")
-                st.markdown(f"- Std Dev: `{amounts.std():,.2f}`")
+            # 2. Distribution (Histogram)
+            fig2 = px.histogram(
+                df, 
+                x=amount_col, 
+                nbins=10,
+                color_discrete_sequence=['#ec4899']
+            )
+            fig2.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                margin=dict(l=0, r=0, t=0, b=20),
+                xaxis=dict(showgrid=False, title=None, tickfont=dict(color='#64748b')),
+                yaxis=dict(showgrid=False, showticklabels=False),
+                height=150,
+                showlegend=False,
+                bargap=0.1
+            )
+            st.markdown("<div style='font-size: 0.85rem; color: var(--text-secondary); margin-bottom:0.5rem;'>Value Distribution</div>", unsafe_allow_html=True)
+            st.plotly_chart(fig2, use_container_width=True, config={'displayModeBar': False})
             
-            with stats_col3:
-                st.markdown("**Records**")
-                st.markdown(f"- Total Tx: `{len(df)}`")
-                st.markdown(f"- Columns: `{len(df.columns)}`")
-                st.markdown(f"- Data Points: `{df.size}`")
-    
-    # === Raw Data ===
-    st.markdown("---")
-    with st.expander("🔧 Technical Details"):
-        st.markdown("**Data Schema**")
-        schema_df = pd.DataFrame({
-            'Column': df.columns,
-            'Type': df.dtypes.astype(str).values,
-            'Non-Null': df.count().values,
-            'Sample': [str(df[col].iloc[0])[:50] + '...' if len(str(df[col].iloc[0])) > 50 else str(df[col].iloc[0]) for col in df.columns]
-        })
-        st.dataframe(schema_df, use_container_width=True, hide_index=True)
-        
-        st.markdown("**Data Source**")
-        st.code(SHEET_CSV_URL, language=None)
-    
-    # === Footer ===
-    st.markdown("---")
-    st.markdown(
-        """
-        <div style='text-align: center; color: #64748b; padding: 1.5rem;'>
-            <p style='font-size: 1rem; margin-bottom: 0.5rem;'>
-                💎 <strong style='color: #f1f5f9;'>CryptoCoin</strong> — Campus Cryptocurrency Dashboard
-            </p>
-            <p style='font-size: 0.8rem; color: #475569;'>
-                Real-time data from Google Sheets • Auto-refresh every 60 seconds<br>
-                Component 1: Transaction Viewer & Analytics
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+        else:
+            st.info("Insufficient data for analytics.")
 
+    # === Footer / Actions ===
+    st.markdown("---")
+    
+    f1, f2, f3 = st.columns([1, 2, 1])
+    with f2:
+        if st.button("Refresh Network Data"):
+            st.cache_data.clear()
+            st.rerun()
+        st.markdown("<div style='text-align:center; color: var(--text-secondary); font-size: 0.8rem; margin-top: 1rem;'>CryptoCoin Protocol v1.0 • Component 1</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
