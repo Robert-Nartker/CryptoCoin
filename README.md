@@ -29,7 +29,7 @@ CryptoCoin is a campus cryptocurrency prototype designed to facilitate secure pe
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/CryptoCoin.git
+git clone https://github.com/Robert-Nartker/CryptoCoin.git
 cd CryptoCoin
 
 # Create virtual environment (recommended)
