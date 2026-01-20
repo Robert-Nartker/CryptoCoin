@@ -467,14 +467,54 @@ def main():
         </div>
         """, unsafe_allow_html=True)
         
-        # Flow diagram placeholder
+        # Flow diagram
         st.markdown("**Transaction Flow**")
         
-        # Check if flow chart exists, otherwise show placeholder
-        if os.path.exists("Flow_Chart.png"):
-            st.image("Flow_Chart.png", caption="How Users Interact with BuckeyeCoin", use_container_width=True)
-        else:
-            st.info("Flow chart available in local view.")
+        # Interactive Graphviz Chart
+        flow_chart = """
+        digraph {
+            rankdir=TB;
+            bgcolor="transparent";
+            
+            node [fontname="Inter", fontsize=12, shape=box, style="filled,rounded", color="#F59E0B", fillcolor="#1e1e24", fontcolor="#f8fafc", penwidth=1.5];
+            edge [fontname="Inter", fontsize=10, color="#64748b", fontcolor="#94a3b8"];
+            
+            # Nodes
+            subgraph cluster_users {
+                label = "";
+                style = invisible;
+                Alumni [label="🎓 Alumni", fillcolor="#2d2d3a"];
+                Faculty [label="👨‍🏫 Faculty", fillcolor="#2d2d3a"];
+            }
+            
+            Wallet [label="🦊 Digital Wallet\n(MetaMask)", shape=note, fillcolor="#F59E0B", fontcolor="#1a1a1a", color="#F59E0B"];
+            Contract [label="⚙️ BuckeyeCoin\nSmart Contract", shape=component, fillcolor="#F59E0B", fontcolor="#1a1a1a"];
+            
+            subgraph cluster_actions {
+                label = "";
+                style = invisible;
+                Donate [label="Donate BUCK\nto Research", fillcolor="#7f1d1d", color="#ef4444"];
+                Stake [label="Stake BUCK\nto Projects", fillcolor="#713f12", color="#eab308"];
+                Earn [label="Earn BUCK\n(Compute for Token)", fillcolor="#14532d", color="#22c55e"];
+            }
+            
+            Beneficiaries [label="🏛️ OSU Research Labs\n& Faculty Incentive Pools", shape=house, fillcolor="#2d2d3a"];
+            Outcome [label="🔗 On-Chain Rewards\n& Transparent Tracking", shape=diamond, fillcolor="#1e1e24"];
+
+            # Edges
+            Alumni -> Wallet;
+            Faculty -> Wallet;
+            Wallet -> Contract;
+            Contract -> Donate;
+            Contract -> Stake;
+            Contract -> Earn;
+            Donate -> Beneficiaries;
+            Stake -> Beneficiaries;
+            Earn -> Beneficiaries;
+            Beneficiaries -> Outcome;
+        }
+        """
+        st.graphviz_chart(flow_chart, use_container_width=True)
         
         st.markdown("---")
         
