@@ -1,4 +1,4 @@
-# 💎 CryptoCoin Dashboard
+# CryptoCoin Dashboard
 
 **Campus Cryptocurrency Prototype - Transaction Viewer & Analytics (Component 1)**
 
@@ -12,12 +12,12 @@ CryptoCoin is a campus cryptocurrency prototype designed to facilitate secure pe
 
 ## Features
 
-- 📊 **Real-time Data** — Live transaction feed from Google Sheets
-- 📈 **Analytics Dashboard** — Interactive charts and metrics
-- 💎 **Modern UI** — Clean, professional dark theme
-- 🔄 **Auto-refresh** — Data syncs every 60 seconds
-- 📱 **Responsive** — Works on desktop and mobile
-- 🔍 **Transaction Details** — View full or truncated hashes
+- **Real-time Data** — Live transaction feed from Google Sheets
+- **Analytics Dashboard** — Interactive charts and metrics
+- **Modern UI** — Clean, professional dark theme
+- **Auto-refresh** — Data syncs every 60 seconds
+- **Responsive** — Works on desktop and mobile
+- **Transaction Details** — View full or truncated hashes
 
 ## Live Demo
 
@@ -88,10 +88,10 @@ This dashboard is **Component 1** of the CryptoCoin project:
 
 | Component | Description | Status |
 |-----------|-------------|--------|
-| 1. Dashboard | Transaction viewer & analytics | ✅ Complete |
-| 2. Governance | Risk memo & policies | 📋 Planned |
-| 3. Tokenomics | Scenario analysis | 📋 Planned |
-| 4. Roadmap | Reflection & future plans | 📋 Planned |
+| 1. Dashboard | Transaction viewer & analytics | Complete |
+| 2. Governance | Risk memo & policies | Planned |
+| 3. Tokenomics | Scenario analysis | Planned |
+| 4. Roadmap | Reflection & future plans | Planned |
 
 ## Tech Stack
 
@@ -113,4 +113,4 @@ This project is for educational purposes.
 
 ---
 
-💎 **CryptoCoin** — Campus Cryptocurrency Prototype
+**CryptoCoin** — Campus Cryptocurrency Prototype
