@@ -12,6 +12,7 @@ import plotly.graph_objects as go
 from datetime import datetime
 import requests
 from io import StringIO
+import os
 
 # === Configuration ===
 SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7MdvgD9R5nXcW-MqHB3oQ_GYKG6I-a0IT9bjnJ-UGRGJF5VdfzsJOKmINEDk8s3xIbxuUphl9oXt/pub?output=csv"
@@ -440,17 +441,73 @@ def main():
         
         st.markdown("""
         <div class="usecase-box">
-            <p style="color: #94a3b8; font-style: italic;">
-                [Your use-case explanation will go here]<br><br>
-                Describe your chosen campus use-case (e.g., student life, research/alumni rewards, 
-                event ticketing, dining credits, etc.) in plain language.
+            <h3 style="color: #F59E0B; margin-top: 0; font-size: 1.1rem;">Overview & Campus Use-Case</h3>
+            <p style="color: #cbd5e1; line-height: 1.6;">
+                <strong>BuckeyeCoin is a digital token designed to make it easier for Ohio State to reward academic work and connect alumni support directly to campus impact.</strong> 
+                Instead of money moving through slow or opaque systems, BuckeyeCoin allows contributions and rewards to be tracked transparently on a blockchain.
+            </p>
+            <ul style="color: #94a3b8; line-height: 1.6; list-style-type: none; padding-left: 0;">
+                <li style="margin-bottom: 0.8rem;">
+                    <strong style="color: #f8fafc;">🎓 For Research:</strong> BuckeyeCoin can be used to reward students and faculty for publications, peer reviews, collaboration across departments, or reaching research milestones.
+                </li>
+                <li style="margin-bottom: 0.8rem;">
+                    <strong style="color: #f8fafc;">🏛️ For Alumni:</strong> BuckeyeCoin provides a modern way to support Ohio State. Alumni can donate tokens directly to research labs, scholarships, or innovation hubs and see exactly how and when their support is used. Staking BuckeyeCoin lets alumni signal long-term support for projects they care about.
+                </li>
+                <li style="margin-bottom: 0.8rem;">
+                    <strong style="color: #f8fafc;">🏫 For Faculty:</strong> BuckeyeCoin acts as a recognition and incentive tool. Teaching excellence, mentorship, and grant success can be acknowledged with on-chain rewards that are transparent and easy to verify.
+                </li>
+            </ul>
+            <p style="color: #cbd5e1; line-height: 1.6; margin-top: 1rem;">
+                Overall, BuckeyeCoin turns academic engagement, alumni support, and research contributions into a simple, trackable digital economy within Ohio State—making participation easier, rewards clearer, and impact more visible.
             </p>
         </div>
         """, unsafe_allow_html=True)
         
         # Flow diagram placeholder
         st.markdown("**Transaction Flow**")
-        st.info("Upload or describe your flow diagram here showing how a typical user interacts with CryptoCoin.")
+        
+        # Check if flow chart exists, otherwise show placeholder
+        if os.path.exists("flow_chart.png"):
+            st.image("flow_chart.png", caption="How Users Interact with BuckeyeCoin", use_container_width=True)
+        else:
+            st.info("Upload 'flow_chart.png' to your repository to see the diagram here.")
+        
+        st.markdown("---")
+
+        # Smart Contract Code
+        st.markdown('<div class="section-header">Smart Contract</div>', unsafe_allow_html=True)
+        st.code("""// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+/**
+ * @title BuckeyeCoin (BUCK) -- simple, pedagogical ERC-20-like token
+ * @notice Minimal token contract to match the Week 1 deliverable
+ *         - name, symbol, decimals, initial supply
+ *         - mint (owner only), transfer, and view functions
+ *         - optional transfer fee (basis points) routed to feeCollector
+ * @dev This is NOT a full ERC-20 implementation (approve/transferFrom missing).
+ *      Keep it simple for learning; you can swap to OpenZeppelin ERC20 later.
+ */
+contract BuckeyeCoin {
+    // --- Meta ---
+    string public name;
+    string public symbol;
+    uint8 public immutable decimals;
+
+    // --- Supply ---
+    uint256 public totalSupply;
+
+    // --- Ownership ---
+    address public owner;
+
+    // --- Balances ---
+    mapping(address => uint256) private balances;
+
+    // --- Optional fee settings ---
+    // e.g., 25 = 0.25%, 100 = 1%, 250 = 2.5%
+    uint16 public transferFeeBps;       // 0..10000 (10000 = 100%)
+    address public feeCollector;        // receives fees if set
+}""", language="solidity")
         
         st.markdown("---")
         
