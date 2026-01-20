@@ -175,30 +175,39 @@ st.markdown("""
         margin-bottom: 1.5rem;
     }
 
-    /* Tabs */
+    /* Tabs - Segmented Control Style */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 0;
-        background-color: rgba(255,255,255,0.03);
+        gap: 8px;
+        background-color: rgba(255, 255, 255, 0.03);
         border-radius: 12px;
-        padding: 4px;
+        padding: 6px;
         border: 1px solid var(--border-color);
+        display: inline-flex; /* Make it compact */
+        width: auto;
     }
 
     .stTabs [data-baseweb="tab"] {
-        height: 2.75rem;
+        height: 2.5rem;
         background-color: transparent;
         border: none;
         color: var(--text-secondary);
         font-family: 'Inter', sans-serif;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 0.9rem;
         border-radius: 8px;
         padding: 0 1.5rem;
+        transition: all 0.2s ease;
     }
     
     .stTabs [aria-selected="true"] {
-        background-color: rgba(245, 158, 11, 0.15) !important;
-        color: #FCD34D !important;
-        border: 1px solid rgba(245, 158, 11, 0.2);
+        background-color: var(--accent-primary) !important;
+        color: #1a1a1a !important; /* Dark text for contrast on gold */
+        box-shadow: 0 2px 10px rgba(245, 158, 11, 0.2);
+    }
+    
+    .stTabs [aria-selected="false"]:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: var(--text-primary);
     }
     
     /* Hide Streamlit elements */
@@ -360,18 +369,18 @@ def render_metric_card(label, value, prefix=""):
 
 def main():
     # === Top Bar ===
-    col_logo, col_spacer, col_status = st.columns([1, 4, 1])
-    with col_logo:
-        st.markdown("""
-        <div style='display:flex; align-items:center;'>
-            <div style='font-weight:700; font-size:1.2rem; color:#fff;'>◆ CryptoCoin</div>
-            <div class='team-badge'>TEAM GOLD</div>
+    st.markdown("""
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <h1 style="margin: 0; padding: 0; font-size: 1.5rem; font-weight: 700; color: #fff; line-height: 1;">CryptoCoin</h1>
+            <span class="team-badge">TEAM GOLD</span>
         </div>
-        """, unsafe_allow_html=True)
-    with col_status:
-        st.markdown(f"<div style='text-align:right; color:#94a3b8; font-size:0.9rem;'><span class='status-dot'></span>Live</div>", unsafe_allow_html=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="status-dot"></span>
+            <span style="color: #94a3b8; font-size: 0.9rem;">Live</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     # === Hero ===
     st.markdown('<div class="hero-title">The Future of<br>Campus Currency</div>', unsafe_allow_html=True)
@@ -397,16 +406,33 @@ def main():
     amount_col = next((c for c in df.columns if 'amount' in c.lower() or 'value' in c.lower()), None)
 
     # === TWO PAGES AS TABS ===
-    tab1, tab2 = st.tabs(["📋 Overview & Use-Case", "📈 Analytics & Interpretation"])
+    # Centered Tabs
+    st.markdown("""
+        <style>
+            div[data-testid="stHorizontalBlock"] > div:nth-child(1) {
+                display: flex;
+                justify-content: center;
+            }
+            .stTabs {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+            .stTabs [data-baseweb="tab-list"] {
+                margin-bottom: 2rem;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    
+    tab1, tab2 = st.tabs(["Overview & Use-Case", "Analytics & Interpretation"])
 
     # =====================================================
     # PAGE 1: OVERVIEW & USE-CASE
     # =====================================================
     with tab1:
-        st.markdown("<br>", unsafe_allow_html=True)
-        
         # --- Use Case Section (placeholder for user content) ---
-        st.markdown('<div class="section-header">💡 Use Case</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Use Case</div>', unsafe_allow_html=True)
         st.markdown('<div class="section-subheader">How CryptoCoin works on campus</div>', unsafe_allow_html=True)
         
         st.markdown("""
@@ -421,12 +447,12 @@ def main():
         
         # Flow diagram placeholder
         st.markdown("**Transaction Flow**")
-        st.info("📊 *Upload or describe your flow diagram here showing how a typical user interacts with CryptoCoin.*")
+        st.info("Upload or describe your flow diagram here showing how a typical user interacts with CryptoCoin.")
         
         st.markdown("---")
         
         # --- Wallet Addresses Section ---
-        st.markdown('<div class="section-header">👛 Wallet Addresses</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Wallet Addresses</div>', unsafe_allow_html=True)
         st.markdown('<div class="section-subheader">Active addresses and their current CryptoCoin balances</div>', unsafe_allow_html=True)
         
         if wallets:
@@ -452,7 +478,7 @@ def main():
         st.markdown("---")
         
         # --- Recent Transactions Section ---
-        st.markdown('<div class="section-header">🔄 Recent Transactions</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Recent Transactions</div>', unsafe_allow_html=True)
         st.markdown('<div class="section-subheader">Latest confirmed transactions on the network</div>', unsafe_allow_html=True)
         
         # Format for display
@@ -505,7 +531,7 @@ def main():
         st.markdown("<br>", unsafe_allow_html=True)
         
         # --- Chart Section ---
-        st.markdown('<div class="section-header">📊 Token Distribution</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Token Distribution</div>', unsafe_allow_html=True)
         st.markdown('<div class="section-subheader">Visualization of transaction activity and token flow</div>', unsafe_allow_html=True)
         
         chart_col1, chart_col2 = st.columns(2)
@@ -560,7 +586,7 @@ def main():
         st.markdown("---")
         
         # --- Transaction Table ---
-        st.markdown('<div class="section-header">📋 Transaction Details</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Transaction Details</div>', unsafe_allow_html=True)
         st.markdown('<div class="section-subheader">Complete record with sender/recipient roles, amounts, fees, and types</div>', unsafe_allow_html=True)
         
         # Show full transaction table with more detail
@@ -573,7 +599,7 @@ def main():
         st.markdown("---")
         
         # --- Interpretation Section (placeholder for user content) ---
-        st.markdown('<div class="section-header">📝 Interpretation</div>', unsafe_allow_html=True)
+        st.markdown('<div class="section-header">Interpretation</div>', unsafe_allow_html=True)
         
         st.markdown("""
         <div class="interpretation-box">
@@ -601,7 +627,7 @@ def main():
     st.markdown("---")
     f1, f2, f3 = st.columns([1, 2, 1])
     with f2:
-        if st.button("🔄 Refresh Data", use_container_width=True):
+        if st.button("Refresh Data", use_container_width=True):
             st.cache_data.clear()
             st.rerun()
         st.markdown("<div style='text-align:center; color: #64748b; font-size: 0.8rem; margin-top: 1rem;'>CryptoCoin Protocol v1.0 • Component 1: Streamlit Dashboard</div>", unsafe_allow_html=True)
