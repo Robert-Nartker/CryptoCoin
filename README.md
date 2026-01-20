@@ -21,7 +21,7 @@ CryptoCoin is a campus cryptocurrency prototype designed to facilitate secure pe
 
 ## Live Demo
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://your-app-name.streamlit.app)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://cryptocoinproject.streamlit.app/)
 
 ## Quick Start
 
@@ -51,7 +51,7 @@ streamlit run app.py
 4. Select this repository and `app.py`
 5. Click Deploy!
 
-Your app will be live at `https://your-app-name.streamlit.app`
+Your app will be live at `https://cryptocoinproject.streamlit.app/`
 
 ## Project Structure
 
