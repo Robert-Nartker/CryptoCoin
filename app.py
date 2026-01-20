@@ -14,7 +14,7 @@ import requests
 from io import StringIO
 
 # === Configuration ===
-SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR6tEwAfY33lPFRJESrjKTN0IQyneZj6RtvVRVUSAB_KydfhP3aVZB62ksuBGHZLlI3Hv97m_DNNz8j/pub?output=csv"
+SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ-7MdvgD9R5nXcW-MqHB3oQ_GYKG6I-a0IT9bjnJ-UGRGJF5VdfzsJOKmINEDk8s3xIbxuUphl9oXt/pub?output=csv"
 
 # === Page Config ===
 st.set_page_config(
@@ -287,8 +287,11 @@ def load_data():
 def format_number(num):
     if pd.isna(num) or num == 0:
         return "0"
-    if abs(num) >= 1_000_000:
+    
+    # Handle rounding edge case where ~999k rounds to 1000K instead of 1M
+    if abs(num) >= 999_995:
         return f"{num/1_000_000:.2f}M"
+        
     if abs(num) >= 1_000:
         return f"{num/1_000:.2f}K"
     return f"{num:,.2f}"
