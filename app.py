@@ -24,28 +24,29 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# === Modern Startup Theme ===
+# === Modern Startup Theme (Gold Team Edition) ===
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
     
     :root {
-        --bg-dark: #0A0A0F;
-        --bg-card: rgba(255, 255, 255, 0.03);
-        --bg-card-hover: rgba(255, 255, 255, 0.06);
-        --border-color: rgba(255, 255, 255, 0.08);
-        --accent-primary: #6366f1;
-        --accent-secondary: #ec4899;
-        --accent-tertiary: #10b981;
+        --bg-dark: #0F0F12;
+        --bg-card: rgba(255, 255, 255, 0.02);
+        --bg-card-hover: rgba(255, 255, 255, 0.05);
+        --border-color: rgba(255, 215, 0, 0.1); /* Gold tint border */
+        --accent-primary: #F59E0B; /* Gold/Amber */
+        --accent-secondary: #D97706; /* Darker Gold */
+        --accent-tertiary: #10b981; /* Success Green */
         --text-primary: #f8fafc;
         --text-secondary: #94a3b8;
+        --gold-glow: 0 0 20px rgba(245, 158, 11, 0.15);
     }
 
     .stApp {
         background-color: var(--bg-dark);
         background-image: 
-            radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.12) 0%, transparent 25%),
-            radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 25%);
+            radial-gradient(circle at 5% 10%, rgba(245, 158, 11, 0.08) 0%, transparent 30%),
+            radial-gradient(circle at 95% 90%, rgba(217, 119, 6, 0.05) 0%, transparent 30%);
         font-family: 'Inter', sans-serif;
     }
 
@@ -61,13 +62,14 @@ st.markdown("""
         font-weight: 800;
         font-size: 3.5rem;
         text-align: center;
-        background: linear-gradient(135deg, #fff 30%, #a5b4fc 100%);
+        background: linear-gradient(135deg, #fff 30%, #FCD34D 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         letter-spacing: -0.03em;
         margin-bottom: 0.5rem;
         line-height: 1.1;
+        text-shadow: var(--gold-glow);
     }
     
     .hero-subtitle {
@@ -93,14 +95,15 @@ st.markdown("""
     
     .glass-card:hover {
         background: var(--bg-card-hover);
-        border-color: rgba(99, 102, 241, 0.2);
+        border-color: rgba(245, 158, 11, 0.3);
         transform: translateY(-2px);
+        box-shadow: var(--gold-glow);
     }
 
     /* Wallet Card */
     .wallet-card {
-        background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.05) 100%);
-        border: 1px solid rgba(99, 102, 241, 0.2);
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+        border: 1px solid rgba(245, 158, 11, 0.15);
         border-radius: 16px;
         padding: 1.25rem;
         margin-bottom: 1rem;
@@ -128,12 +131,14 @@ st.markdown("""
         font-family: 'JetBrains Mono', monospace;
         font-size: 1.75rem;
         font-weight: 700;
+        text-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
     }
     
     .wallet-balance-label {
         color: var(--text-secondary);
         font-size: 0.75rem;
         margin-top: 0.25rem;
+        font-style: italic;
     }
 
     /* Metrics */
@@ -159,6 +164,9 @@ st.markdown("""
         font-size: 1.5rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     .section-subheader {
@@ -188,8 +196,9 @@ st.markdown("""
     }
     
     .stTabs [aria-selected="true"] {
-        background-color: var(--accent-primary) !important;
-        color: white !important;
+        background-color: rgba(245, 158, 11, 0.15) !important;
+        color: #FCD34D !important;
+        border: 1px solid rgba(245, 158, 11, 0.2);
     }
     
     /* Hide Streamlit elements */
@@ -209,7 +218,7 @@ st.markdown("""
     
     /* Interpretation box */
     .interpretation-box {
-        background: rgba(99, 102, 241, 0.08);
+        background: rgba(245, 158, 11, 0.05);
         border-left: 3px solid var(--accent-primary);
         padding: 1.25rem;
         border-radius: 0 12px 12px 0;
@@ -236,6 +245,20 @@ st.markdown("""
         border-radius: 16px;
         padding: 2rem;
         margin: 1.5rem 0;
+    }
+    
+    /* Team Badge */
+    .team-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        border-radius: 20px;
+        color: #FCD34D;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        margin-left: 10px;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -339,7 +362,12 @@ def main():
     # === Top Bar ===
     col_logo, col_spacer, col_status = st.columns([1, 4, 1])
     with col_logo:
-        st.markdown("<div style='font-weight:700; font-size:1.2rem; color:#fff;'>◆ CryptoCoin</div>", unsafe_allow_html=True)
+        st.markdown("""
+        <div style='display:flex; align-items:center;'>
+            <div style='font-weight:700; font-size:1.2rem; color:#fff;'>◆ CryptoCoin</div>
+            <div class='team-badge'>TEAM GOLD</div>
+        </div>
+        """, unsafe_allow_html=True)
     with col_status:
         st.markdown(f"<div style='text-align:right; color:#94a3b8; font-size:0.9rem;'><span class='status-dot'></span>Live</div>", unsafe_allow_html=True)
 
@@ -409,15 +437,14 @@ def main():
             num_wallets = min(4, len(sorted_wallets))  # Show up to 4
             cols = st.columns(2)
             
-            wallet_labels = ["Primary Wallet", "Secondary Wallet", "Wallet #3", "Wallet #4"]
-            
             for i, (addr, data) in enumerate(sorted_wallets[:num_wallets]):
                 with cols[i % 2]:
+                    # Just use "Active Wallet" as generic label since we don't have names
                     render_wallet_card(
                         address=addr,
                         balance=data['balance'],
                         role=data['role'],
-                        label=wallet_labels[i]
+                        label="Active Wallet"
                     )
         else:
             st.warning("Unable to calculate wallet balances from transaction data.")
@@ -490,7 +517,7 @@ def main():
                     df.reset_index(), 
                     y=amount_col,
                     title="Transaction Volume",
-                    color_discrete_sequence=['#6366f1']
+                    color_discrete_sequence=['#F59E0B'] # Gold color
                 )
                 fig.update_layout(
                     plot_bgcolor='rgba(0,0,0,0)',
@@ -503,7 +530,7 @@ def main():
                     height=280,
                     showlegend=False
                 )
-                fig.update_traces(fillcolor='rgba(99, 102, 241, 0.2)', line=dict(width=2))
+                fig.update_traces(fillcolor='rgba(245, 158, 11, 0.2)', line=dict(width=2))
                 st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
         
         with chart_col2:
@@ -514,7 +541,7 @@ def main():
                     x=amount_col, 
                     nbins=10,
                     title="Value Distribution",
-                    color_discrete_sequence=['#ec4899']
+                    color_discrete_sequence=['#D97706'] # Darker gold
                 )
                 fig2.update_layout(
                     plot_bgcolor='rgba(0,0,0,0)',
