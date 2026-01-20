@@ -442,6 +442,10 @@ def main():
         st.markdown("""
         <div class="usecase-box">
             <h3 style="color: #F59E0B; margin-top: 0; font-size: 1.1rem;">Overview & Campus Use-Case</h3>
+            <div style="margin-bottom: 1rem; padding-left: 1rem; border-left: 2px solid #F59E0B; color: #e2e8f0; font-style: italic;">
+                <strong>Team Gold BuckeyeCoin (BUCK)</strong><br>
+                A campus-focused cryptocurrency designed to support research incentives, alumni engagement, and faculty rewards at Ohio State.
+            </div>
             <p style="color: #cbd5e1; line-height: 1.6;">
                 <strong>BuckeyeCoin is a digital token designed to make it easier for Ohio State to reward academic work and connect alumni support directly to campus impact.</strong> 
                 Instead of money moving through slow or opaque systems, BuckeyeCoin allows contributions and rewards to be tracked transparently on a blockchain.
@@ -467,10 +471,10 @@ def main():
         st.markdown("**Transaction Flow**")
         
         # Check if flow chart exists, otherwise show placeholder
-        if os.path.exists("flow_chart.png"):
-            st.image("flow_chart.png", caption="How Users Interact with BuckeyeCoin", use_container_width=True)
+        if os.path.exists("Flow_Chart.png"):
+            st.image("Flow_Chart.png", caption="How Users Interact with BuckeyeCoin", use_container_width=True)
         else:
-            st.info("Upload 'flow_chart.png' to your repository to see the diagram here.")
+            st.info("Upload 'Flow_Chart.png' to your repository to see the diagram here.")
         
         st.markdown("---")
 
